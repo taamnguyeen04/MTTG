@@ -1,0 +1,72 @@
+[
+    {
+        "cau_hoi": "Việc làm nào sau đây thể hiện lòng biết ơn người lao động?",
+        "dap_an": [
+            "Làm thiệp tặng cô giáo nhân ngày 20/11",
+            "Vứt rác bừa bãi trên đường",
+            "Nhại lại giọng người bán hàng rong",
+            "Không chào bác bảo vệ trường"
+        ],
+        "giai_thich": "Làm thiệp tặng cô giáo là hành động cụ thể thể hiện sự biết ơn, phù hợp với nội dung Bài 1 (trang 8 SGK).",
+        "chu_de": "Biết ơn người lao động",
+        "dap_an_dung": "A",
+        "do_kho": 1,
+        "hinh_anh": "img/blobid2-1689746853.png"
+    },
+    {
+        "cau_hoi": "Khi thấy bạn mới chuyển trường bị cô lập, em nên làm gì?",
+        "dap_an": [
+            "Bắt nạt bạn",
+            "Rủ bạn cùng chơi",
+            "Mách cô giáo",
+            "Lờ đi coi như không thấy"
+        ],
+        "giai_thich": "Rủ bạn cùng chơi là cách thể hiện sự cảm thông, giúp đỡ người gặp khó khăn (Bài 2, trang 14-15 SGK).",
+        "chu_de": "Cảm thông, giúp đỡ người khó khăn",
+        "dap_an_dung": "B",
+        "do_kho": 2,
+        "hinh_anh": "img/tay-chay-la-gi-1.jpg"
+    },
+    {
+        "cau_hoi": "Hành động nào sau đây thể hiện sự yêu lao động?",
+        "dap_an": [
+            "Nhờ mẹ dọn dẹp đồ chơi",
+            "Tự giác gấp quần áo của mình",
+            "Trốn tránh khi được phân công trực nhật",
+            "Chỉ làm việc khi bố mẹ nhắc nhở"
+        ],
+        "giai_thich": "Tự giác gấp quần áo là biểu hiện của yêu lao động (Bài 3, trang 20 SGK - câu chuyện 'Những giọt mồ hôi trên trán mẹ').",
+        "chu_de": "Yêu lao động",
+        "dap_an_dung": "B",
+        "do_kho": 1,
+        "hinh_anh": "img/c3.png"
+    },
+    {
+        "cau_hoi": "Khi mượn sách của bạn bị rách, em nên làm gì?",
+        "dap_an": [
+            "Giấu đi không trả",
+            "Dán lại sách trước khi trả và xin lỗi bạn",
+            "Đổ lỗi cho người khác",
+            "Vứt sách đi"
+        ],
+        "giai_thich": "Dán lại sách và xin lỗi là cách tôn trọng tài sản người khác (Bài 4, trang 26 SGK - tình huống d).",
+        "chu_de": "Tôn trọng tài sản người khác",
+        "dap_an_dung": "B",
+        "do_kho": 2,
+        "hinh_anh": "img/c4.png"
+    },
+    {
+        "cau_hoi": "Hành động nào bảo vệ của công?",
+        "dap_an": [
+            "Khắc tên lên bàn học",
+            "Nhắc bạn tắt điện khi ra về",
+            "Vứt rác ở sân trường",
+            "Dùng bút xóa vẽ lên tường"
+        ],
+        "giai_thich": "Nhắc bạn tắt điện là bảo vệ tài sản chung (Bài 5, trang 32-33 SGK - tình huống a, c).",
+        "chu_de": "Bảo vệ của công",
+        "dap_an_dung": "B",
+        "do_kho": 3,
+        "hinh_anh": "img/c5.png"
+    }
+]

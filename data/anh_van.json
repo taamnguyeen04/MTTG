@@ -1,0 +1,90 @@
+{
+  "ly_thuyet": {
+    "tieu_de": "Introduction to English Grammar",
+    "noi_dung": "English grammar is the set of structural rules governing the composition of clauses, phrases, and words in the English language. It includes sentence structure, word formation, punctuation, and syntax. Understanding grammar helps in the effective communication and expression of thoughts."
+  },
+  "cau_hoi_trac_nghiem": [
+    {
+      "cau_hoi": "What is the correct use of 'there', 'their', and 'they're'?",
+      "dap_an": [
+        "A. 'There' refers to a place, 'their' is possessive, and 'they're' is a contraction of 'they are'",
+        "B. 'There' is a contraction of 'they are', 'their' refers to a place, and 'they're' is possessive",
+        "C. 'There' and 'they're' are the same, 'their' is possessive",
+        "D. None of the above"
+      ],
+      "dap_an_dung": "A"
+    },
+    {
+      "cau_hoi": "Which sentence is grammatically correct?",
+      "dap_an": [
+        "A. She don't like coffee.",
+        "B. She doesn't like coffee.",
+        "C. She not like coffee.",
+        "D. She don't likes coffee."
+      ],
+      "dap_an_dung": "B"
+    }
+  ],
+  "cac_loai_bai_tap": [
+    {
+      "loai": "Sentence Formation",
+      "huong_dan": "Create a grammatically correct sentence using the following words.",
+      "vi_du": [
+        {
+          "tu": ["I", "to", "the", "store", "go"],
+          "cau_dung": "I go to the store."
+        },
+        {
+          "tu": ["He", "has", "a", "car"],
+          "cau_dung": "He has a car."
+        }
+      ]
+    },
+    {
+      "loai": "Fill in the Blanks",
+      "huong_dan": "Complete the sentences using the correct form of the word.",
+      "vi_du": [
+        {
+          "cau": "She ____ (go) to school every day.",
+          "dap_an_dung": "goes"
+        },
+        {
+          "cau": "They ____ (eat) breakfast at 7 AM.",
+          "dap_an_dung": "eat"
+        }
+      ]
+    }
+  ],
+  "tu_luyen": [
+    {
+      "cau_hoi": "What is the plural form of 'child'?",
+      "dap_an": [
+        "A. Childs",
+        "B. Children",
+        "C. Childes",
+        "D. Child"
+      ],
+      "dap_an_dung": "B"
+    },
+    {
+      "cau_hoi": "Choose the correct preposition: I will arrive ___ 5 PM.",
+      "dap_an": [
+        "A. at",
+        "B. on",
+        "C. in",
+        "D. by"
+      ],
+      "dap_an_dung": "A"
+    }
+  ],
+  "bai_tap_nang_cao": [
+    {
+      "cau_hoi": "Rewrite the sentence correctly: She can sings well.",
+      "dap_an_dung": "She can sing well."
+    },
+    {
+      "cau_hoi": "Form a question: She goes to the gym every morning.",
+      "dap_an_dung": "Does she go to the gym every morning?"
+    }
+  ]
+}

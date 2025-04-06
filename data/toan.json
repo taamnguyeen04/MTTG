@@ -1,0 +1,44 @@
+[
+  {
+    "cau_hoi": "Cách đọc đúng số 50 731 là:",
+    "dap_an": [
+      "Năm mươi nghìn bảy trăm ba mươi mốt",
+      "Năm mươi nghìn bảy trăm ba mươi một",
+      "Năm mươi ngàn bảy trăm ba mốt",
+      "Năm chục nghìn bảy trăm ba chục một"
+    ],
+    "giai_thich": "Theo quy tắc đọc số, khi hàng chục > 1, chữ số 1 ở hàng đơn vị đọc là 'mốt' (Bài 1, SGK trang 5).",
+    "chu_de": "Đọc số đến 100 000",
+    "dap_an_dung": "A",
+    "do_kho": 1,
+    "hinh_anh": "img/doc_so.jpg"
+  },
+  {
+    "cau_hoi": "Giá trị của biểu thức 125 x c khi c = 8 là:",
+    "dap_an": [
+      "1 000",
+      "133",
+      "1 025",
+      "1 000 000"
+    ],
+    "giai_thich": "Thay c = 8 vào biểu thức: 125 x 8 = 1 000 (Bài 2, SGK trang 12).",
+    "chu_de": "Biểu thức có chứa một chữ",
+    "dap_an_dung": "A",
+    "do_kho": 2,
+    "hinh_anh": "img/tinh_gia_tri.jpg"
+  },
+  {
+    "cau_hoi": "Sắp xếp các số 12 572; 12 490; 11 564; 11 753 theo thứ tự từ bé đến lớn:",
+    "dap_an": [
+      "11 564; 11 753; 12 490; 12 572",
+      "12 572; 12 490; 11 753; 11 564",
+      "11 564; 12 490; 11 753; 12 572",
+      "11 753; 11 564; 12 572; 12 490"
+    ],
+    "giai_thich": "So sánh lần lượt từ hàng chục nghìn: 11 000 < 12 000, trong đó 11 564 < 11 753 và 12 490 < 12 572 (Bài 1, SGK trang 7).",
+    "chu_de": "So sánh số đến 100 000",
+    "dap_an_dung": "A",
+    "do_kho": 3,
+    "hinh_anh": "img/sap_xep_so.jpg"
+  }
+]

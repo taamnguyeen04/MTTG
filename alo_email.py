@@ -1,9 +1,8 @@
 import smtplib
 from email.mime.text import MIMEText
 
-def send_email(text):
+def send_email(text, receiver_email = "nguyentranminhtam04@gmail.com"):
     sender_email = "tam.nguyentranminh04@hcmut.edu.vn"
-    receiver_email = "nguyentranminhtam04@gmail.com"
     password = "toeu xjcj wgog lyav"
 
     msg = MIMEText(text)
@@ -15,5 +14,5 @@ def send_email(text):
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, msg.as_string())
 
-text = "Đây là nội dung email."
-send_email(text)
+# text = "Đây là nội dung email."
+# send_email(text)

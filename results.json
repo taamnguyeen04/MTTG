@@ -1,0 +1,50 @@
+[
+    {
+        "username": "Tâm 01",
+        "subject": "đạo đức",
+        "score": 8,
+        "total": 10,
+        "time_taken": 39.72141933441162,
+        "timestamp": "2025-04-05T22:56:43.917477"
+    },
+    {
+        "username": "Tâm 02",
+        "subject": "đạo đức",
+        "score": 6,
+        "total": 10,
+        "time_taken": 74.83717226982117,
+        "timestamp": "2025-04-06T00:21:05.614581"
+    },
+    {
+        "username": "Tâm 03",
+        "subject": "đạo đức",
+        "score": 5,
+        "total": 5,
+        "time_taken": 209.63648319244385,
+        "timestamp": "2025-04-06T02:51:26.893407"
+    },
+    {
+        "username": "Tâm 04",
+        "subject": "đạo đức",
+        "score": 7,
+        "total": 5,
+        "time_taken": 209.63648319244385,
+        "timestamp": "2025-04-06T02:51:48.084235"
+    },
+    {
+        "username": "Tâm 05",
+        "subject": "đạo đức",
+        "score": 9,
+        "total": 5,
+        "time_taken": 209.63648319244385,
+        "timestamp": "2025-04-06T02:53:08.727706"
+    },
+    {
+        "username": "Đinh Thị Giàu",
+        "subject": "đạo đức",
+        "score": 3,
+        "total": 5,
+        "time_taken": 347.153865814209,
+        "timestamp": "2025-04-06T03:38:23.033529"
+    }
+]

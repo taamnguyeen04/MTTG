@@ -1,0 +1,103 @@
+[
+  {
+    "mon_hoc": "Đạo đức",
+    "ten_bai": "Biết ơn người lao động",
+    "mo_ta": "Bài học về sự biết ơn đối với những người lao động và đóng góp của họ cho xã hội.",
+    "noi_dung_text": "Người lao động như giáo viên, lao công, nông dân,... đều đóng góp quan trọng cho cuộc sống. Chúng ta cần thể hiện lòng biết ơn qua lời nói, việc làm như: chào hỏi, giúp đỡ, trân trọng sản phẩm của họ. Bài thơ 'Tiếng chổi tre' của Tố Hữu ca ngợi người lao công quét dọn đêm khuya.",
+    "noi_dung_audio": "Nội dung bài học: Học sinh cần nhận thức được công sức của người lao động và biết thể hiện lòng biết ơn phù hợp với lứa tuổi. Qua bài thơ Tiếng chổi tre, chúng ta thấy được sự vất vả của những người làm công việc dọn dẹp.",
+    "hinh_anh": "img/lao_cong.png",
+    "hoat_dong": [
+      {
+        "ten_hoat_dong": "Khởi động",
+        "noi_dung": "Nghe bài hát 'Lớn lên em sẽ làm gì?' và thảo luận về các nghề nghiệp"
+      },
+      {
+        "ten_hoat_dong": "Khám phá",
+        "noi_dung": "Đọc bài thơ Tiếng chổi tre và trả lời câu hỏi về đóng góp của người lao công"
+      }
+    ]
+  },
+  {
+    "mon_hoc": "Đạo đức",
+    "ten_bai": "Tôn trọng tài sản của người khác",
+    "mo_ta": "Bài học về cách ứng xử với đồ dùng, tài sản của người khác và ý thức bảo vệ tài sản chung.",
+    "noi_dung_text": "Tài sản của người khác cần được giữ gìn và sử dụng đúng cách. Khi mượn đồ phải hỏi ý kiến, sử dụng cẩn thận và trả lại đúng hẹn. Truyện 'Chuột con mượn rìu' cho thấy sự day dứt khi không trả đồ và niềm vui khi làm đúng.",
+    "noi_dung_audio": "Nội dung bài học: Chúng ta cần tôn trọng tài sản của người khác, không tự ý sử dụng đồ khi chưa được phép. Khi mượn đồ phải giữ gìn và trả lại đúng hẹn.",
+    "hinh_anh": "img/ton_trong_do_dung.png",
+    "hoat_dong": [
+      {
+        "ten_hoat_dong": "Xử lý tình huống",
+        "noi_dung": "Nếu thấy bạn lấy đồ của mình mà không hỏi, em sẽ làm gì?"
+      },
+      {
+        "ten_hoat_dong": "Vận dụng",
+        "noi_dung": "Thiết kế góc tìm đồ thất lạc trong lớp học"
+      }
+    ]
+  },
+  {
+    "mon_hoc": "Toán",
+    "ten_bai": "Ôn tập các số đến 100 000",
+    "mo_ta": "Bài học về cách đọc, viết, so sánh và thực hiện phép tính với các số trong phạm vi 100 000",
+    "noi_dung_text": "Các số đến 100 000 gồm 5 chữ số, được viết theo thứ tự hàng: chục nghìn, nghìn, trăm, chục, đơn vị. Ví dụ: 22 963 = 2 chục nghìn + 2 nghìn + 9 trăm + 6 chục + 3 đơn vị. Khi đọc số, cần chú ý các trường hợp đặc biệt với số 1 (một/mốt), 4 (bốn/tư), 5 (năm/lăm).",
+    "noi_dung_audio": "Nội dung bài học: Các số đến 100 000 có 5 chữ số, đọc và viết theo thứ tự từ hàng chục nghìn đến hàng đơn vị. Ví dụ: 50 731 đọc là Năm mươi nghìn bảy trăm ba mươi mốt.",
+    "hinh_anh": "img/math.jpg",
+    "hoat_dong": [
+      {
+        "ten_hoat_dong": "Khởi động",
+        "noi_dung": "Chơi trò 'Đố bạn viết số' với các số tròn nghìn"
+      },
+      {
+        "ten_hoat_dong": "Khám phá",
+        "noi_dung": "Phân tích cấu tạo số qua ví dụ 36 789 = 30 000 + 6 000 + 700 + 80 + 9"
+      }
+    ]
+  },
+  {
+    "mon_hoc": "Toán",
+    "ten_bai": "Biểu thức có chứa một chữ",
+    "mo_ta": "Bài học về cách tính giá trị biểu thức đại số đơn giản",
+    "noi_dung_text": "Biểu thức chứa một chữ (a, b, x...) gồm số, phép tính và một chữ cái. Ví dụ: 5 + a. Khi thay chữ bằng số cụ thể, ta tính được giá trị biểu thức. Quy tắc tính: nhân/chia trước, cộng/trừ sau.",
+    "noi_dung_audio": "Nội dung bài học: Để tính giá trị biểu thức 5 + a, thay a bằng số (ví dụ a = 3) ta có 5 + 3 = 8. Với 125 x c tại c = 8, kết quả là 1 000.",
+    "hinh_anh": "img/math.jpg",
+    "hoat_dong": [
+      {
+        "ten_hoat_dong": "Thực hành",
+        "noi_dung": "Tính nhanh: 4200 - b khi b = 100 (Kết quả: 4 100)"
+      },
+      {
+        "ten_hoat_dong": "Vận dụng",
+        "noi_dung": "Đặt bài toán thực tế: 'Lan có 5 quả táo, mẹ cho thêm x quả. Viết biểu thức tổng số táo'"
+      }
+    ]
+  },
+  {
+  "mon_hoc": "Tiếng Anh",
+  "ten_bai": "Present Simple Tense (Thì hiện tại đơn)",
+  "mo_ta": "Bài học giúp học sinh hiểu cách dùng thì hiện tại đơn để diễn tả thói quen hàng ngày, sự thật hiển nhiên và khả năng cá nhân.",
+  "noi_dung_text": "1. Công thức:\n   - Khẳng định: I/You/We/They + V (work). He/She/It + V-s/es (works)\n   - Phủ định: S + don't/doesn't + V\n   - Nghi vấn: Do/Does + S + V?\n2. Cách dùng:\n   - Diễn tả thói quen (I brush my teeth every morning)\n   - Sự thật hiển nhiên (The sun rises in the east)\n   - Khả năng cá nhân (She speaks English)\n3. Dấu hiệu nhận biết: always, usually, often, every day...",
+  "noi_dung_audio": "audio/present_simple.mp3 (Giọng đọc chậm rãi với ví dụ:\n- 'My father drinks coffee every morning'\n- 'Does Lan go to school by bike? Yes, she does')",
+  "hinh_anh": [
+    "img/daily_routines.jpg"
+  ],
+  "hoat_dong": [
+    {
+      "ten_hoat_dong": "Warm-up: Daily Routine Miming",
+      "noi_dung": "Học sinh bốc thăm hành động (ví dụ: 'brush teeth') và diễn tả không lời để cả lớp đoán bằng câu thì hiện tại đơn"
+    },
+    {
+      "ten_hoat_dong": "Grammar Puzzle",
+      "noi_dung": "Ghép các mảnh giấy rời thành câu hoàn chỉnh:\n- They / play / football / every Sunday\n- She / not / like / carrots"
+    },
+    {
+      "ten_hoat_dong": "Survey Time",
+      "noi_dung": "Phát phiếu điều tra với câu hỏi 'Do you...?' (ví dụ: Do you help your parents at home?). Học sinh phỏng vấn 3 bạn và báo cáo: 'Lan waters the plants every day'"
+    }
+  ],
+  "luu_y": [
+    "Chú ý cách thêm -s/-es với ngôi He/She/It (go → goes, study → studies)",
+    "Phân biệt 'don't' (I/you/we/they) và 'doesn't' (he/she/it)",
+    "Khuyến khích đặt câu về thói quen thực tế của bản thân"
+  ]
+}
+]
