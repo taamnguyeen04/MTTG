@@ -13,6 +13,7 @@ import speech_recognition as sr
 from gtts import gTTS
 import os
 import pygame
+from streamlit.components.v1 import html
 
 # ========== CẤU HÌNH HỆ THỐNG ==========
 st.set_page_config(
@@ -82,22 +83,34 @@ def send_email(subject, body, receiver_email):
 def text_to_speech(text, filename="temp_speech.mp3", language='vi'):
     """Chuyển văn bản thành giọng nói và phát"""
     try:
-        if os.path.exists(filename):
+        # Xử lý nếu file tồn tại và bị PermissionError
+        base_name = filename
+        attempt = 0
+        while os.path.exists(filename):
             try:
                 os.remove(filename)
+                break
             except PermissionError:
-                print("Không thể xóa file cũ")
-                return False
+                attempt += 1
+                filename = f"{os.path.splitext(base_name)[0]}_{attempt}.mp3"
+
+        # Tạo và lưu file mới
         tts = gTTS(text=text, lang=language, slow=False)
         tts.save(filename)
+
+        # Phát âm thanh
         pygame.mixer.music.load(filename)
         pygame.mixer.music.play()
+
+        # Chờ phát xong
         while pygame.mixer.music.get_busy():
             pygame.time.Clock().tick(10)
+
         return True
     except Exception as e:
         st.error(f"Lỗi trong text_to_speech: {str(e)}")
         return False
+
 
 
 def recognize_speech():
@@ -211,10 +224,10 @@ def show_flashcards():
 
     # Chỉ đọc từ khi chuyển sang thẻ mới
     if st.session_state.should_speak:
-        text_to_speech(word, filename="japanese.mp3", language=lang)
-        text_to_speech(meaning, filename="vietnamese.mp3", language="vi")
+        text_to_speech(word, filename="j.mp3", language=lang)
+        text_to_speech(meaning, filename="v.mp3", language="vi")
         if romaji:
-            text_to_speech(romaji, filename="romaji.mp3", language="en")
+            text_to_speech(romaji, filename="e.mp3", language="en")
 
     # Nút tiếp theo
     if st.button("➡️ Tiếp theo"):
@@ -236,110 +249,239 @@ def show_flashcards():
 # ========== TRANG CHỦ ==========
 def home_page():
     """Hiển thị trang chủ giới thiệu hệ thống"""
-    st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🏠 Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị</h1>",
-                unsafe_allow_html=True)
+    # ======= CSS TÙY CHỈNH =======
+    st.markdown("""
+    <style>
+        /* Tiêu đề chính */
+        .main-header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border-radius: 15px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
 
+        /* Card giới thiệu */
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Nút lớp học */
+        .class-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #f5f5f5 0%, #ffffff 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .class-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.2);
+            background: linear-gradient(145deg, #e8f5e9 0%, #ffffff 100%);
+        }
+
+        /* Hướng dẫn sử dụng */
+        .guide-step {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-left: 4px solid #4CAF50;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        /* Thông tin liên hệ */
+        .contact-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 20px;
+            margin: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ======= PHẦN NỘI DUNG =======
+    # Header chính
+    st.markdown("""
+    <div class="main-header">
+        <h1 style="margin:0; font-size:2.5rem">📚 Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị</h1>
+    </div>
+    """, unsafe_allow_html=True)
+    text_to_speech("Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh cho người khiếm thị")
+    time.sleep(1)
 
     # Giới thiệu hệ thống
     with st.container():
         st.markdown("""
-        <div style='background-color:#f0f2f6; padding:20px; border-radius:10px;'>
-            <h3 style='color:#4CAF50;'>🌍 Giới thiệu hệ thống</h3>
-            <p>Hệ thống được thiết kế để hỗ trợ học sinh, đặc biệt là học sinh khiếm thị, 
-            tiếp cận kiến thức dễ dàng thông qua đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.</p>
+        <div class="feature-card">
+            <h3 style="color:#2E7D32; margin-top:0">🌐 Giới Thiệu Hệ Thống</h3>
+            <p style="font-size:1.05rem; line-height:1.6">
+            Hệ thống tích hợp công nghệ AI tiên tiến hỗ trợ học tập đa phương thức với:
+            </p>
+            <div style="display: flex; gap:1rem; flex-wrap:wrap;">
+                <span class="badge">🎤 Nhận diện giọng nói</span>
+                <span class="badge">📖 Học liệu đa dạng</span>
+                <span class="badge">🤖 Trợ lý ảo thông minh</span>
+                <span class="badge">📊 Báo cáo học tập</span>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
-        if st.button("🔊 Nghe giới thiệu hệ thống"):
+        if st.button("🔊 Nghe giới thiệu hệ thống", use_container_width=True):
             intro_text = """
-            Hệ thống được thiết kế để hỗ trợ học sinh, 
-            đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
-            đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
-            """
+                        Hệ thống được thiết kế để hỗ trợ học sinh, 
+                        đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
+                        đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
+                        """
             text_to_speech(intro_text)
 
-    # Các lớp học thay thế cho phần tính năng chính
-    st.markdown("### 🏫 Các lớp học")
-
-    # Thêm CSS để làm ô lớp to và đẹp
-    st.markdown("""
-        <style>
-            .class-box {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 150px;
-                background-color: #e0f2f1;
-                border-radius: 15px;
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: #00695c;
-                box-shadow: 2px 4px 10px rgba(0,0,0,0.1);
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-align: center;
-            }
-            .class-box:hover {
-                background-color: #b2dfdb;
-                transform: scale(1.05);
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Chia làm 3 cột để mỗi ô lớn hơn
+    # Lớp học
+    st.markdown("### 📚 Chọn Lớp Học")
     cols = st.columns(3)
+    class_info = {
+        1: {"color": "#4CAF50", "icon": "🧮"},
+        2: {"color": "#2196F3", "icon": "📚"},
+        3: {"color": "#9C27B0", "icon": "🌍"},
+        4: {"color": "#FF9800", "icon": "⚛️"},
+        5: {"color": "#E91E63", "icon": "🎨"}
+    }
+
     for i in range(1, 6):
-        col = cols[(i - 1) % 3]
-        with col:
-            button_html = f"""
-            <div class="class-box" onclick="window.location.href='?class={i}'">
-                📘 Lớp {i}
+        with cols[(i - 1) % 3]:
+            info = class_info[i]
+            html = f"""
+            <div class="class-card" onclick="window.location.href='?class={i}'">
+                <div style="font-size:2.5rem; margin-bottom:1rem">{info['icon']}</div>
+                <h3 style="margin:0; color:{info['color']}">Lớp {i}</h3>
             </div>
             """
-            st.markdown(button_html, unsafe_allow_html=True)
-            if st.button(f"Chọn lớp {i}", key=f"class_btn_{i}", use_container_width=True):
-                st.success(f"Bạn đã chọn lớp {i}")
-                text_to_speech(f"Bạn đã chọn lớp {i}")
+            st.markdown(html, unsafe_allow_html=True)
+    intro_text = """
+                            Hệ thống được thiết kế để hỗ trợ học sinh, 
+                            đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
+                            đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
+                            """
+    # text_to_speech(intro_text)
+    time.sleep(1)
+    # text_to_speech("Bạn muốn vào lớp mấy?")
+    # # speech = recognize_speech().lower()
+    # time.sleep(2)
+    # speech = "lớp 4"
+    # # Nhận diện lớp học
+    # for i in range(1, 6):
+    #     if f"lớp {i}" in speech:
+    #         text_to_speech(f"Bạn đã chọn lớp {i}")
+    #         st.session_state.selected_class = i
+    #         break
 
-    # Hướng dẫn sử dụng
-    with st.expander("📖 Hướng dẫn sử dụng"):
+    if "guide_read" not in st.session_state:
+        st.session_state.guide_read = False
+
+    # Hướng dẫn sử dụng (theo các phím tắt ALT)
+    with st.expander("📘 Hướng Dẫn Sử Dụng Nhanh Bằng Bàn Phím", expanded=False):
         st.markdown("""
-        ### Cách sử dụng hệ thống:
+        <div class="guide-step">
+            <h4>🎯 Điều hướng nhanh</h4>
+            <ul>
+                <li><b>Alt + 1</b>: Về trang chủ</li>
+                <li><b>Alt + 2</b>: Mở trang bài học</li>
+                <li><b>Alt + 3</b>: Mở trang kiểm tra kiến thức</li>
+                <li><b>Alt + 4</b>: Mở trang hỗ trợ học tập</li>
+            </ul>
+        </div>
 
-        1. **Bài học**:
-           - Chọn môn học từ danh sách
-           - Chọn bài học từ các tab
-           - Nhấn nút 🔊 để nghe nội dungchào mưng
-           - Nhấn nút 🎤 để điều khiển bằng giọng nói
+        <div class="guide-step">
+            <h4>🃏 Flashcard</h4>
+            <ul>
+                <li><b>Alt + M</b>: Chuyển sang flashcard tiếp theo</li>
+                <li><b>Alt + B</b>: Phát tiếng Anh của flashcard</li>
+                <li><b>Alt + V</b>: Phát tiếng Việt của flashcard</li>
+                <li><b>Alt + N</b>: Phát tiếng Nhật của flashcard</li>
+            </ul>
+        </div>
 
-        2. **Kiểm tra kiến thức**:
-           - Nhập tên để bắt đầu bài kiểm tra
-           - Trả lời câu hỏi bằng cách chọn đáp án hoặc nói
-           - Xem kết quả sau khi hoàn thành
+        <div class="guide-step">
+            <h4>🎤 Giọng nói</h4>
+            <ul>
+                <li><b>Alt + 5</b>: Bật chế độ điều khiển bằng giọng nói</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-        3. **Kết quả học tập**:
-           - Xem lịch sử làm bài
-           - Nghe kết quả bằng giọng nói
-           - Tải xuống báo cáo
-        """)
-
-        if st.button("🔊 Nghe hướng dẫn sử dụng"):
-            guide_text = """
-            Hướng dẫn sử dụng hệ thống:
-            1. Bài học: Chọn môn học và bài học từ danh sách, nhấn nút loa để nghe nội dung.
-            2. Kiểm tra kiến thức: Nhập tên để bắt đầu, trả lời câu hỏi bằng cách chọn hoặc nói đáp án.
-            3. Kết quả học tập: Xem và nghe kết quả các bài kiểm tra đã làm.
+        # Tự động đọc hướng dẫn nếu chưa đọc
+        if not st.session_state.guide_read:
+            huong_dan = """
+            Hướng dẫn sử dụng bằng phím tắt:
+            Alt + 1 để về trang chủ.
+            Alt + 2 để mở trang bài học.
+            Alt + 3 để mở trang kiểm tra kiến thức.
+            Alt + 4 để mở trang hỗ trợ học tập.
+            Alt + M để chuyển sang flashcard tiếp theo.
+            Alt + B để nghe phát âm tiếng Anh.
+            Alt + V để nghe phát âm tiếng Việt.
+            Alt + N để nghe phát âm tiếng Nhật.
+            Alt + 5 để bật điều khiển bằng giọng nói.
             """
-            text_to_speech(guide_text)
+            # text_to_speech(huong_dan)
+            st.session_state.guide_read = True
 
     # Thông tin liên hệ
     st.markdown("""
-    ### 📧 Liên hệ hỗ trợ
-    Nếu bạn cần hỗ trợ hoặc có câu hỏi, vui lòng liên hệ:
-    - Email: nguyentranminhtam04@gmail.com
-    - Số điện thoại: 0899781007
-    """)
-
+    <div class="contact-card">
+        <h3 style="margin-top:0">📬 Liên Hệ Hỗ Trợ</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap:1rem;">
+            <div style="padding:1rem; background:#fff; border-radius:10px;">
+                <h4 style="margin:0 0 0.5rem 0">💌 Email</h4>
+                <p style="margin:0">support@hocsinhthongminh.vn</p>
+            </div>
+            <div style="padding:1rem; background:#fff; border-radius:10px;">
+                <h4 style="margin:0 0 0.5rem 0">📞 Hotline</h4>
+                <p style="margin:0">1900 1234 (24/7)</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    # text_to_speech(intro_text)
+    time.sleep(1)
+    # text_to_speech("Bạn muốn vào lớp mấy?")
+    # speech = recognize_speech().lower()
+    time.sleep(2)
+    speech = "lớp 4"
+    # Nhận diện lớp học
+    for i in range(1, 6):
+        if f"lớp {i}" in speech:
+            # text_to_speech(f"Bạn đã chọn lớp {i}")
+            st.session_state.selected_class = i
+            break
 
 # ========== GIAO DIỆN BÀI HỌC ==========
 def show_lessons():
@@ -503,7 +645,6 @@ def show_lessons():
 
     # Nếu đang ở chế độ xem flashcard
     if st.session_state.get("show_flashcards"):
-        print("*************************************************************************")
         show_flashcards()
         return
 
@@ -617,9 +758,12 @@ def show_lessons():
 # ========== GIAO DIỆN QUIZ ==========
 def quiz_interface():
     """Giao diện làm bài quiz với lựa chọn môn học"""
-    st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🧠 Kiểm tra kiến thức</h1>", unsafe_allow_html=True)
+    st.markdown(
+        "<h1 style='text-align: center; color: #4CAF50;'>🧠 Kiểm tra kiến thức</h1>",
+        unsafe_allow_html=True
+    )
 
-    # Khởi tạo session state
+    # Khởi tạo trạng thái quiz nếu chưa có
     if 'quiz_state' not in st.session_state:
         st.session_state.quiz_state = {
             "started": False,
@@ -633,37 +777,55 @@ def quiz_interface():
             "first_time_enter": True
         }
 
-    # Phần chọn môn học nếu chưa chọn
-    if st.session_state.quiz_state["first_time_enter"]:
+    quiz_state = st.session_state.quiz_state
+
+    # Chào mừng người dùng lần đầu
+    if quiz_state["first_time_enter"]:
         text_to_speech("Chọn môn học bạn muốn kiểm tra")
-        st.session_state.quiz_state["first_time_enter"] = False  # Đánh dấu đã đọc
-    if not st.session_state.quiz_state["subject_selected"]:
-        st.markdown("### Chọn môn học bạn muốn kiểm tra:")
+        quiz_state["first_time_enter"] = False
+
+    # Nếu chưa chọn môn, hiển thị tùy chọn
+    if not quiz_state["subject_selected"]:
+        st.markdown("### 📚 Vui lòng chọn môn học:")
+
         col1, col2, col3 = st.columns(3)
+        subject_buttons = {
+            "toán": col1.button("📐 Toán", use_container_width=True),
+            "đạo đức": col2.button("❤️ Đạo đức", use_container_width=True),
+            "anh văn": col3.button("🌎 Tiếng Anh", use_container_width=True)
+        }
 
-        with col1:
-            if st.button("📐 Toán", use_container_width=True):
-                st.session_state.quiz_state.update({
-                    "subject": "toán",
-                    "subject_selected": True
-                })
+        # Nếu người dùng click chọn môn học
+        for subject, clicked in subject_buttons.items():
+            if clicked:
+                quiz_state["subject"] = subject
+                quiz_state["subject_selected"] = True
                 st.rerun()
 
-        with col2:
-            if st.button("❤️ Đạo đức", use_container_width=True):
-                st.session_state.quiz_state.update({
-                    "subject": "đạo đức",
-                    "subject_selected": True
-                })
-                st.rerun()
+        # Hoặc chọn bằng giọng nói
+        if st.button("🎤 Giọng nói"):
+            text_to_speech("Hãy nói tên môn học: Toán, Đạo đức hoặc Tiếng Anh")
+            # spoken_subject = recognize_speech().lower()
+            time.sleep(2)
+            spoken_subject = "đạo đức"
 
-        with col3:
-            if st.button("🌎 Tiếng Anh", use_container_width=True):
-                st.session_state.quiz_state.update({
-                    "subject": "anh văn",
-                    "subject_selected": True
-                })
+            # Ghép các từ có thể nói thành tên chuẩn
+            if "toán" in spoken_subject:
+                selected_subject = "toán"
+            elif "đạo đức" in spoken_subject or "daoduc" in spoken_subject:
+                selected_subject = "đạo đức"
+            elif "tiếng anh" in spoken_subject or "anh văn" in spoken_subject:
+                selected_subject = "anh văn"
+            else:
+                selected_subject = None
+
+            if selected_subject:
+                quiz_state["subject"] = selected_subject
+                quiz_state["subject_selected"] = True
+                text_to_speech(f"Đã chọn môn {selected_subject}")
                 st.rerun()
+            else:
+                text_to_speech("Không nhận diện được môn học. Vui lòng thử lại.")
         return
 
     # Phần nhập tên nếu đã chọn môn nhưng chưa bắt đầu
@@ -674,7 +836,7 @@ def quiz_interface():
             st.session_state.name_prompt_shown = True
 
         # Nút nhập tên bằng giọng nói (đặt bên ngoài form)
-        if st.button("🎤 Nhập tên bằng giọng nói", key="voice_name_btn"):
+        if st.button("🎤 Giọng nói", key="voice_name_btn"):
             text_to_speech("Xin hãy nói tên của bạn")
             recognized_name = recognize_speech()
             if recognized_name:
@@ -757,7 +919,7 @@ def quiz_interface():
         )
 
         # Nút trả lời bằng giọng nói
-        if st.button(f"🎤 Trả lời bằng giọng nói - Câu {current_q + 1}"):
+        if st.button(f"🎤 Giọng nói"):
             text_to_speech("Hãy nói đáp án của bạn, A, B, C hoặc D")
             answer = recognize_speech().split(" ")[1]
             print(answer)
@@ -879,7 +1041,8 @@ def quiz_interface():
 
 # ========== GIAO DIỆN HỖ TRỢ ==========
 def support_page():
-    """Hiển thị trang hỗ trợ gửi mail cho giáo viên bằng giọng nói"""
+    # """Trang hỗ trợ hoàn toàn bằng giọng nói"""
+    # """Hiển thị trang hỗ trợ gửi mail cho giáo viên bằng giọng nói"""
     st.markdown("<h1 style='text-align: center; color: #4CAF50;'>📧 Hỗ trợ học tập</h1>", unsafe_allow_html=True)
 
     # Danh sách giáo viên
@@ -903,30 +1066,30 @@ def support_page():
         st.session_state.support_state["first_time_enter"] = False  # Đánh dấu đã đọc
     # CSS tùy chỉnh
     st.markdown("""
-    <style>
-        .teacher-card {
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            background-color: #f0f2f6;
-            transition: all 0.3s;
-        }
-        .teacher-card:hover {
-            background-color: #e0e5ec;
-            transform: translateY(-2px);
-        }
-        .teacher-selected {
-            background-color: #4CAF50 !important;
-            color: white !important;
-        }
-        .voice-btn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+        <style>
+            .teacher-card {
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                background-color: #f0f2f6;
+                transition: all 0.3s;
+            }
+            .teacher-card:hover {
+                background-color: #e0e5ec;
+                transform: translateY(-2px);
+            }
+            .teacher-selected {
+                background-color: #4CAF50 !important;
+                color: white !important;
+            }
+            .voice-btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+        </style>
+        """, unsafe_allow_html=True)
 
     # Phần 1: Chọn giáo viên
     st.markdown("### 1. Chọn giáo viên cần hỗ trợ")
@@ -940,11 +1103,11 @@ def support_page():
 
             st.markdown(
                 f"""
-                <div class="{card_class}" onclick="window.location.href='?teacher={teacher_name}'">
-                    <h4>{teacher_name}</h4>
-                    <p>{teacher_email}</p>
-                </div>
-                """,
+                    <div class="{card_class}" onclick="window.location.href='?teacher={teacher_name}'">
+                        <h4>{teacher_name}</h4>
+                        <p>{teacher_email}</p>
+                    </div>
+                    """,
                 unsafe_allow_html=True
             )
 
@@ -973,11 +1136,11 @@ def support_page():
     # Hiển thị giáo viên đã chọn
     if st.session_state.support_state["selected_teacher"]:
         st.markdown(f"""
-        <div style="background-color:#e8f5e9; padding:10px; border-radius:5px; margin:10px 0;">
-            <b>Giáo viên đã chọn:</b> {st.session_state.support_state["selected_teacher"]}
-            <br><b>Email:</b> {TEACHERS[st.session_state.support_state["selected_teacher"]]}
-        </div>
-        """, unsafe_allow_html=True)
+            <div style="background-color:#e8f5e9; padding:10px; border-radius:5px; margin:10px 0;">
+                <b>Giáo viên đã chọn:</b> {st.session_state.support_state["selected_teacher"]}
+                <br><b>Email:</b> {TEACHERS[st.session_state.support_state["selected_teacher"]]}
+            </div>
+            """, unsafe_allow_html=True)
 
     # Phần 2: Nhập nội dung email
     st.markdown("### 2. Nội dung cần hỗ trợ")
@@ -1021,11 +1184,11 @@ def support_page():
 
             # Thêm thông tin người gửi vào nội dung email
             full_content = f"""
-            Học sinh gửi yêu cầu hỗ trợ:
-            - Giáo viên: {teacher_name}
-            - Nội dung: 
-            {email_content}
-            """
+                Học sinh gửi yêu cầu hỗ trợ:
+                - Giáo viên: {teacher_name}
+                - Nội dung: 
+                {email_content}
+                """
 
             if send_email(f"Yêu cầu hỗ trợ từ học sinh", full_content, teacher_email):
                 st.success("Đã gửi email thành công!")
@@ -1036,20 +1199,155 @@ def support_page():
             else:
                 st.error("Gửi email thất bại!")
                 text_to_speech("Gửi email không thành công")
+    # st.markdown("<h1 style='text-align: center; color: #4CAF50;'>📧 Hỗ trợ học tập</h1>", unsafe_allow_html=True)
+
+    TEACHERS = {
+        "Nguyễn Trần Minh Tâm": "nguyentranminhtam04@gmail.com",
+        "Đinh Thị Giàu": "dinhthigiau.contact@gmail.com"
+    }
+
+    # Khởi tạo session state
+    if 'voice_support' not in st.session_state:
+        st.session_state.voice_support = {
+            "step": "select_teacher",
+            "teacher": None,
+            "content": "",
+            "confirmations": 0,
+            "first_prompt": True
+        }
+
+    # Xử lý luồng giọng nói
+    if st.session_state.voice_support["first_prompt"]:
+        text_to_speech("Xin hãy nói tên giáo viên bạn muốn liên hệ")
+        st.session_state.voice_support["first_prompt"] = False
+        # return
+
+    # Bước 1: Chọn giáo viên
+    if st.session_state.voice_support["step"] == "select_teacher":
+        # teacher_name = recognize_speech()
+        time.sleep(3)
+        teacher_name = "Minh Tâm"
+        if teacher_name:
+            best_match = process_teacher_input(teacher_name, TEACHERS)
+            if best_match:
+                st.session_state.voice_support["teacher"] = best_match
+                text_to_speech(f"Bạn đã chọn giáo viên {best_match}. Hãy nói nội dung cần gửi")
+                st.session_state.voice_support["step"] = "record_content"
+            else:
+                text_to_speech("Không tìm thấy giáo viên phù hợp. Vui lòng nói lại tên giáo viên")
+        # return
+
+    # Bước 2: Ghi nhận nội dung
+    if st.session_state.voice_support["step"] == "record_content":
+        # content = recognize_speech()
+        time.sleep(3)
+        content = "dạ em cần thầy hỗ trợ"
+        if content:
+            st.session_state.voice_support["content"] = content
+            text_to_speech(f"Nội dung của bạn là: {content}. Bạn có muốn gửi ngay không? Hãy nói Có hoặc Không")
+            st.session_state.voice_support["step"] = "confirmation"
+        # return
+
+    # Bước 3: Xác nhận
+    if st.session_state.voice_support["step"] == "confirmation":
+        # confirm = recognize_speech()
+        time.sleep(3)
+        confirm = "có"
+        if confirm:
+            if "có" in confirm.lower():
+                # Gửi email
+                success = send_email(
+                    subject="Yêu cầu hỗ trợ từ học sinh",
+                    body=st.session_state.voice_support["content"],  # Đổi content -> body
+                    receiver_email=TEACHERS[st.session_state.voice_support["teacher"]]
+                    # Đổi recipient -> receiver_email
+                )
+                if success:
+                    text_to_speech("Đã gửi email thành công cho giáo viên!")
+                else:
+                    text_to_speech("Có lỗi xảy ra khi gửi email. Vui lòng thử lại sau")
+
+                # Reset trạng thái
+                st.session_state.voice_support = {
+                    "step": "select_teacher",
+                    "teacher": None,
+                    "content": "",
+                    "confirmations": 0,
+                    "first_prompt": True
+                }
+            else:
+                text_to_speech("Đã hủy gửi email. Vui lòng bắt đầu lại")
+                st.session_state.voice_support["step"] = "select_teacher"
+        # return
+
+
+def process_teacher_input(voice_input, teachers):
+    """Xử lý tên giáo viên từ đầu vào giọng nói"""
+    voice_input = voice_input.lower().replace("cô", "").replace("thầy", "").strip()
+    best_score = 0
+    best_match = None
+
+    for name in teachers.keys():
+        clean_name = name.lower().replace("cô", "").replace("thầy", "").strip()
+        score = sum(
+            1 for word in voice_input.split()
+            if word in clean_name.split()
+        )
+
+        if score > best_score:
+            best_score = score
+            best_match = name
+
+    return best_match if best_score > 0 else None
 
 
 # ========== GIAO DIỆN CHÍNH ==========
+def inject_keyboard_listener():
+    js_code = """
+    <script>
+    document.addEventListener('keydown', function(e) {
+        if (e.key >= '1' && e.key <= '4') {
+            window.parent.postMessage({
+                type: 'streamlit:setQueryParams',
+                queryParams: { key: e.key }
+            }, '*');
+        }
+    });
+    </script>
+    """
+    html(js_code, height=0, width=0)
+
+
 def main():
     st.sidebar.title("🏫 Hệ thống Học tập")
+
+    menu_options = [
+        "🏠 Trang chủ",
+        "📚 Bài học",
+        "🧠 Kiểm tra kiến thức",
+        "📧 Hỗ trợ học tập"
+    ]
+
+    # Xử lý phím tắt
+    if 'key' in st.query_params:
+        key = st.query_params['key']
+        if key.isdigit() and 1 <= int(key) <= len(menu_options):
+            st.session_state.selected_menu = menu_options[int(key) - 1]
+
+    # Khởi tạo session state
+    if 'selected_menu' not in st.session_state:
+        st.session_state.selected_menu = menu_options[0]
+
+    # Render menu
     menu = st.sidebar.radio(
         "Chọn chức năng:",
-        ["🏠 Trang chủ", "📚 Bài học", "🧠 Kiểm tra kiến thức", "📧 Hỗ trợ học tập"]
+        menu_options,
+        key='selected_menu'
     )
 
-    # Đọc menu chức năng
-    # if st.sidebar.button("🔊 Đọc menu"):
-    #     text_to_speech(f"Bạn đang chọn {menu}")
+    inject_keyboard_listener()
 
+    # Điều hướng trang
     if menu == "🏠 Trang chủ":
         home_page()
     elif menu == "📚 Bài học":

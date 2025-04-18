@@ -14,6 +14,7 @@ from gtts import gTTS
 import os
 import pygame
 
+
 # ========== CẤU HÌNH HỆ THỐNG ==========
 st.set_page_config(
     page_title="Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị",
@@ -236,110 +237,177 @@ def show_flashcards():
 # ========== TRANG CHỦ ==========
 def home_page():
     """Hiển thị trang chủ giới thiệu hệ thống"""
-    st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🏠 Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị</h1>",
-                unsafe_allow_html=True)
+    # ======= CSS TÙY CHỈNH =======
+    st.markdown("""
+    <style>
+        /* Tiêu đề chính */
+        .main-header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border-radius: 15px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
 
+        /* Card giới thiệu */
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Nút lớp học */
+        .class-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #f5f5f5 0%, #ffffff 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .class-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.2);
+            background: linear-gradient(145deg, #e8f5e9 0%, #ffffff 100%);
+        }
+
+        /* Hướng dẫn sử dụng */
+        .guide-step {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-left: 4px solid #4CAF50;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        /* Thông tin liên hệ */
+        .contact-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 20px;
+            margin: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ======= PHẦN NỘI DUNG =======
+    # Header chính
+    st.markdown("""
+    <div class="main-header">
+        <h1 style="margin:0; font-size:2.5rem">📚 Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị</h1>
+    </div>
+    """, unsafe_allow_html=True)
 
     # Giới thiệu hệ thống
     with st.container():
         st.markdown("""
-        <div style='background-color:#f0f2f6; padding:20px; border-radius:10px;'>
-            <h3 style='color:#4CAF50;'>🌍 Giới thiệu hệ thống</h3>
-            <p>Hệ thống được thiết kế để hỗ trợ học sinh, đặc biệt là học sinh khiếm thị, 
-            tiếp cận kiến thức dễ dàng thông qua đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.</p>
+        <div class="feature-card">
+            <h3 style="color:#2E7D32; margin-top:0">🌐 Giới Thiệu Hệ Thống</h3>
+            <p style="font-size:1.05rem; line-height:1.6">
+            Hệ thống tích hợp công nghệ AI tiên tiến hỗ trợ học tập đa phương thức với:
+            </p>
+            <div style="display: flex; gap:1rem; flex-wrap:wrap;">
+                <span class="badge">🎤 Nhận diện giọng nói</span>
+                <span class="badge">📖 Học liệu đa dạng</span>
+                <span class="badge">🤖 Trợ lý ảo thông minh</span>
+                <span class="badge">📊 Báo cáo học tập</span>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
-        if st.button("🔊 Nghe giới thiệu hệ thống"):
-            intro_text = """
-            Hệ thống được thiết kế để hỗ trợ học sinh, 
-            đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
-            đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
-            """
+        if st.button("🔊 Nghe giới thiệu hệ thống", use_container_width=True):
+            intro_text = """Hệ thống học tập thông minh phiên bản 2.0 được phát triển đặc biệt dành cho người khiếm thị, 
+            tích hợp các công nghệ tiên tiến như trí tuệ nhân tạo, xử lý ngôn ngữ tự nhiên và hệ thống tương tác đa phương thức."""
             text_to_speech(intro_text)
 
-    # Các lớp học thay thế cho phần tính năng chính
-    st.markdown("### 🏫 Các lớp học")
-
-    # Thêm CSS để làm ô lớp to và đẹp
-    st.markdown("""
-        <style>
-            .class-box {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 150px;
-                background-color: #e0f2f1;
-                border-radius: 15px;
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: #00695c;
-                box-shadow: 2px 4px 10px rgba(0,0,0,0.1);
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-align: center;
-            }
-            .class-box:hover {
-                background-color: #b2dfdb;
-                transform: scale(1.05);
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Chia làm 3 cột để mỗi ô lớn hơn
+    # Lớp học
+    st.markdown("### 📚 Chọn Lớp Học")
     cols = st.columns(3)
+    class_info = {
+        1: {"color": "#4CAF50", "icon": "🧮"},
+        2: {"color": "#2196F3", "icon": "📚"},
+        3: {"color": "#9C27B0", "icon": "🌍"},
+        4: {"color": "#FF9800", "icon": "⚛️"},
+        5: {"color": "#E91E63", "icon": "🎨"}
+    }
+
     for i in range(1, 6):
-        col = cols[(i - 1) % 3]
-        with col:
-            button_html = f"""
-            <div class="class-box" onclick="window.location.href='?class={i}'">
-                📘 Lớp {i}
+        with cols[(i - 1) % 3]:
+            info = class_info[i]
+            html = f"""
+            <div class="class-card" onclick="window.location.href='?class={i}'">
+                <div style="font-size:2.5rem; margin-bottom:1rem">{info['icon']}</div>
+                <h3 style="margin:0; color:{info['color']}">Lớp {i}</h3>
             </div>
             """
-            st.markdown(button_html, unsafe_allow_html=True)
-            if st.button(f"Chọn lớp {i}", key=f"class_btn_{i}", use_container_width=True):
-                st.success(f"Bạn đã chọn lớp {i}")
-                text_to_speech(f"Bạn đã chọn lớp {i}")
+            st.markdown(html, unsafe_allow_html=True)
 
     # Hướng dẫn sử dụng
-    with st.expander("📖 Hướng dẫn sử dụng"):
+    with st.expander("📘 Hướng Dẫn Sử Dụng Chi Tiết", expanded=False):
         st.markdown("""
-        ### Cách sử dụng hệ thống:
+        <div class="guide-step">
+            <h4>🎯 Bước 1: Chọn chức năng</h4>
+            <p>Sử dụng menu bên trái để chọn các chức năng chính của hệ thống</p>
+        </div>
 
-        1. **Bài học**:
-           - Chọn môn học từ danh sách
-           - Chọn bài học từ các tab
-           - Nhấn nút 🔊 để nghe nội dungchào mưng
-           - Nhấn nút 🎤 để điều khiển bằng giọng nói
+        <div class="guide-step">
+            <h4>📖 Bước 2: Học tập</h4>
+            <p>• Chọn môn học và bài học từ thư viện<br>
+            • Sử dụng nút 🔊 để nghe nội dung<br>
+            • Tương tác bằng giọng nói với nút 🎤</p>
+        </div>
 
-        2. **Kiểm tra kiến thức**:
-           - Nhập tên để bắt đầu bài kiểm tra
-           - Trả lời câu hỏi bằng cách chọn đáp án hoặc nói
-           - Xem kết quả sau khi hoàn thành
-
-        3. **Kết quả học tập**:
-           - Xem lịch sử làm bài
-           - Nghe kết quả bằng giọng nói
-           - Tải xuống báo cáo
-        """)
-
-        if st.button("🔊 Nghe hướng dẫn sử dụng"):
-            guide_text = """
-            Hướng dẫn sử dụng hệ thống:
-            1. Bài học: Chọn môn học và bài học từ danh sách, nhấn nút loa để nghe nội dung.
-            2. Kiểm tra kiến thức: Nhập tên để bắt đầu, trả lời câu hỏi bằng cách chọn hoặc nói đáp án.
-            3. Kết quả học tập: Xem và nghe kết quả các bài kiểm tra đã làm.
-            """
-            text_to_speech(guide_text)
+        <div class="guide-step">
+            <h4>🧠 Bước 3: Kiểm tra</h4>
+            <p>• Làm bài kiểm tra kiến thức<br>
+            • Xem kết quả chi tiết<br>
+            • Xuất báo cáo học tập</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     # Thông tin liên hệ
     st.markdown("""
-    ### 📧 Liên hệ hỗ trợ
-    Nếu bạn cần hỗ trợ hoặc có câu hỏi, vui lòng liên hệ:
-    - Email: nguyentranminhtam04@gmail.com
-    - Số điện thoại: 0899781007
-    """)
-
+    <div class="contact-card">
+        <h3 style="margin-top:0">📬 Liên Hệ Hỗ Trợ</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap:1rem;">
+            <div style="padding:1rem; background:#fff; border-radius:10px;">
+                <h4 style="margin:0 0 0.5rem 0">💌 Email</h4>
+                <p style="margin:0">support@hocsinhthongminh.vn</p>
+            </div>
+            <div style="padding:1rem; background:#fff; border-radius:10px;">
+                <h4 style="margin:0 0 0.5rem 0">📞 Hotline</h4>
+                <p style="margin:0">1900 1234 (24/7)</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ========== GIAO DIỆN BÀI HỌC ==========
 def show_lessons():

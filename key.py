@@ -1,27 +1,56 @@
-import requests
+from gtts import gTTS
 import pygame
 import keyboard
+import os
 
-# Hàm chuyển văn bản thành giọng nói
+# Từ điển ánh xạ phím đặc biệt sang tiếng Việt
+special_keys = {
+    'space': 'Phím cách',
+    'enter': 'Phím enter',
+    'backspace': 'Phím xóa lùi',
+    'tab': 'Phím tab',
+    'esc': 'Phím escape',
+    'delete': 'Phím xóa',
+    'up': 'Phím mũi tên lên',
+    'down': 'Phím mũi tên xuống',
+    'left': 'Phím mũi tên trái',
+    'right': 'Phím mũi tên phải',
+    'home': 'Phím home',
+    'end': 'Phím end',
+    'page up': 'Phím page up',
+    'page down': 'Phím page down',
+    'caps lock': 'Phím caps lock',
+    'shift': 'Phím shift',
+    'ctrl': 'Phím control',
+    'alt': 'Phím alt',
+    'windows': 'Phím windows',
+    'menu': 'Phím menu',
+    'num lock': 'Phím num lock'
+}
+
+# Thêm các phím F1-F12
+for i in range(1, 13):
+    special_keys[f'f{i}'] = f'Phím F {i}'
+
+
+# Danh sách tổ hợp cần bỏ qua
+ignored_combinations = {
+    'alt+1', 'alt+2', 'alt+3', 'alt+4',
+    'alt+v', 'alt+b', 'alt+n', 'alt+m'
+}
+
+
 def text_to_speech(text, filename="output.mp3"):
-    url = 'https://api.fpt.ai/hmi/tts/v5'
-    headers = {
-        'api-key': 'qs8SxCjCU8K09dAwa60GHCrdLagfZrlK',
-        'speed': '1',
-        'voice': 'linhsan'
-    }
+    if os.path.exists(filename):
+        try:
+            os.remove(filename)
+        except PermissionError:
+            print("Lỗi: Không thể xóa tệp cũ!")
+            return
 
-    response = requests.post(url, headers=headers, data=text.encode('utf-8'))
-    response_json = response.json()
-
-    if "async" in response_json:
-        audio_url = response_json["async"]
-
-        audio_response = requests.get(audio_url, stream=True)
-        with open(filename, "wb") as f:
-            for chunk in audio_response.iter_content(chunk_size=1024):
-                if chunk:
-                    f.write(chunk)
+    try:
+        tts = gTTS(text=text, lang='vi', slow=False)
+        tts.save(filename)
 
         pygame.mixer.init()
         pygame.mixer.music.load(filename)
@@ -29,35 +58,69 @@ def text_to_speech(text, filename="output.mp3"):
 
         while pygame.mixer.music.get_busy():
             pygame.time.Clock().tick(10)
-    else:
-        print("Lỗi:", response_json.get("message", "Không rõ nguyên nhân"))
+    except Exception as e:
+        print(f"Lỗi: {e}")
+    finally:
+        pygame.mixer.quit()
 
-# Hàm lắng nghe bàn phím và đọc âm thanh
+
 def listen_keyboard():
-    typed_text = ""  # Lưu từ đang gõ
+    typed_text = ""
+    combo = []
 
-    while True:
-        event = keyboard.read_event()
+    def speak_key(key):
+        # Bỏ qua nếu key nằm trong danh sách bị loại trừ
+        if key.lower() in ignored_combinations:
+            print(f"Đã bỏ qua tổ hợp: {key}")
+            return
 
-        if event.event_type == keyboard.KEY_DOWN:  # Khi phím được nhấn xuống
+        # Xử lý phím đặc biệt
+        if key in special_keys:
+            text_to_speech(special_keys[key])
+        # Xử lý tổ hợp phím
+        elif '+' in key:
+            keys = key.split('+')
+            text = ' '.join([special_keys.get(k, k) for k in keys])
+            text_to_speech(f'Tổ hợp {text}')
+        # Xử lý ký tự thường
+        else:
+            text_to_speech(f'{key}')
+
+    def handle_key(event):
+        nonlocal typed_text, combo
+
+        if event.event_type == keyboard.KEY_DOWN:
             key = event.name
 
-            if key == "space":  # Khi bấm Space -> Đọc lại từ vừa nhập
-                if typed_text:
-                    text_to_speech(typed_text)
-                typed_text = ""
+            # Bỏ qua các phím modifier khi đứng riêng
+            if key in ['shift', 'ctrl', 'alt', 'windows']:
+                combo.append(key)
+                return
 
-            elif key == "enter":  # Khi bấm Enter -> Đọc lại từ vừa nhập
-                if typed_text:
-                    text_to_speech(typed_text)
-                typed_text = ""
+            # Xử lý tổ hợp phím
+            if combo:
+                key_combination = '+'.join(combo + [key])
+                speak_key(key_combination)
+                combo = []
+            else:
+                # Xử lý phím đơn
+                if key == 'space':
+                    if typed_text:
+                        text_to_speech(typed_text)
+                    typed_text = ""
+                elif key == 'backspace':
+                    typed_text = typed_text[:-1]
+                    text_to_speech("Đã xóa")
+                elif key == 'enter':
+                    text_to_speech("Đã xuống dòng")
+                else:
+                    typed_text += key
+                    speak_key(key)
 
-            elif key == "backspace":  # Khi xóa ký tự
-                typed_text = typed_text[:-1]
+    keyboard.hook(handle_key)
+    keyboard.wait()
 
-            elif len(key) == 1:  # Chỉ thêm vào nếu là ký tự bình thường
-                typed_text += key
-                text_to_speech(key)  # Đọc từng ký tự khi nhập
 
 # Chạy chương trình
+text_to_speech("Chương trình đọc phím tiếng Việt đã sẵn sàng", "ready.mp3")
 listen_keyboard()
