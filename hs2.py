@@ -390,8 +390,8 @@ def home_page():
                             đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
                             đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
                             """
-    # text_to_speech(intro_text)
-    time.sleep(1)
+    text_to_speech(intro_text)
+    time.sleep(3)
     # text_to_speech("Bạn muốn vào lớp mấy?")
     # # speech = recognize_speech().lower()
     # time.sleep(2)
@@ -451,7 +451,7 @@ def home_page():
             Alt + N để nghe phát âm tiếng Nhật.
             Alt + 5 để bật điều khiển bằng giọng nói.
             """
-            # text_to_speech(huong_dan)
+            text_to_speech(huong_dan)
             st.session_state.guide_read = True
 
     # Thông tin liên hệ
@@ -472,14 +472,14 @@ def home_page():
     """, unsafe_allow_html=True)
     # text_to_speech(intro_text)
     time.sleep(1)
-    # text_to_speech("Bạn muốn vào lớp mấy?")
+    text_to_speech("Bạn học lớp mấy?")
     # speech = recognize_speech().lower()
     time.sleep(2)
     speech = "lớp 4"
     # Nhận diện lớp học
     for i in range(1, 6):
         if f"lớp {i}" in speech:
-            # text_to_speech(f"Bạn đã chọn lớp {i}")
+            text_to_speech(f"Bạn đã chọn lớp {i}")
             st.session_state.selected_class = i
             break
 

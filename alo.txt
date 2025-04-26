@@ -1,3 +1,0 @@
-pinecone api key: pcsk_2TEoRq_3qxFJcNQxq7NB92ttWHrcxTBAnyop5BTtWNKxnAfSdLzJekhZc1B6hXvD8J6zS1
-index: mttg
-GEMINI_KEY: AIzaSyCz5hqe8F_KbjZ0To_JrVfOYYn0BIb61To

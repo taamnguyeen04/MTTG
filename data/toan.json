@@ -11,7 +11,7 @@
     "chu_de": "Đọc số đến 100 000",
     "dap_an_dung": "A",
     "do_kho": 1,
-    "hinh_anh": "img/doc_so.jpg"
+    "hinh_anh": "img/math.jpg"
   },
   {
     "cau_hoi": "Giá trị của biểu thức 125 x c khi c = 8 là:",
@@ -25,7 +25,7 @@
     "chu_de": "Biểu thức có chứa một chữ",
     "dap_an_dung": "A",
     "do_kho": 2,
-    "hinh_anh": "img/tinh_gia_tri.jpg"
+    "hinh_anh": "img/math.jpg"
   },
   {
     "cau_hoi": "Sắp xếp các số 12 572; 12 490; 11 564; 11 753 theo thứ tự từ bé đến lớn:",
@@ -39,6 +39,6 @@
     "chu_de": "So sánh số đến 100 000",
     "dap_an_dung": "A",
     "do_kho": 3,
-    "hinh_anh": "img/sap_xep_so.jpg"
+    "hinh_anh": "img/math.jpg"
   }
 ]
