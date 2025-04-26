@@ -91,7 +91,7 @@ def home_page():
         <h1 style="margin:0; font-size:2.5rem">📚 Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị</h1>
     </div>
     """, unsafe_allow_html=True)
-    text_to_speech("Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh cho người khiếm thị")
+    # text_to_speech("Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh cho người khiếm thị")
     time.sleep(1)
 
     # Giới thiệu hệ thống
@@ -117,7 +117,7 @@ def home_page():
                         đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
                         đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
                         """
-            text_to_speech(intro_text)
+            # text_to_speech(intro_text)
 
     # Lớp học
     st.markdown("### 📚 Chọn Lớp Học")
@@ -147,16 +147,17 @@ def home_page():
                             """
     text_to_speech(intro_text)
     time.sleep(3)
+
     # text_to_speech("Bạn muốn vào lớp mấy?")
-    # # speech = recognize_speech().lower()
-    # time.sleep(2)
-    # speech = "lớp 4"
-    # # Nhận diện lớp học
-    # for i in range(1, 6):
-    #     if f"lớp {i}" in speech:
-    #         text_to_speech(f"Bạn đã chọn lớp {i}")
-    #         st.session_state.selected_class = i
-    #         break
+    # speech = recognize_speech().lower()
+    time.sleep(2)
+    speech = "lớp 4"
+    # Nhận diện lớp học
+    for i in range(1, 6):
+        if f"lớp {i}" in speech:
+            # text_to_speech(f"Bạn đã chọn lớp {i}")
+            st.session_state.selected_class = i
+            break
 
     if "guide_read" not in st.session_state:
         st.session_state.guide_read = False
@@ -206,7 +207,7 @@ def home_page():
             Alt + N để nghe phát âm tiếng Nhật.
             Alt + 5 để bật điều khiển bằng giọng nói.
             """
-            text_to_speech(huong_dan)
+            # text_to_speech(huong_dan)
             st.session_state.guide_read = True
 
     # Thông tin liên hệ
