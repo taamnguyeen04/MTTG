@@ -1,213 +1,164 @@
 import streamlit as st
+from streamlit_shortcuts import add_keyboard_shortcuts
 import time
 from utils import text_to_speech
 
 def home_page():
-    """Hiển thị trang chủ giới thiệu hệ thống"""
-    # ======= CSS TÙY CHỈNH =======
+    """Trang chủ hỗ trợ tư duy học tập và tư thế ngồi thông minh cho người khiếm thị."""
+
+    # ===== Khởi tạo session state =====
+    if "voice_mode" not in st.session_state:
+        st.session_state.voice_mode = True  # Mặc định bật Voice
+    if "voice_mode_key" not in st.session_state:
+        st.session_state.voice_mode_key = 1
+    if "pending_alert" not in st.session_state:
+        st.session_state.pending_alert = None
+    if "selected_class" not in st.session_state:
+        st.session_state.selected_class = None
+    if "page_intro_read" not in st.session_state:
+        st.session_state.page_intro_read = False
+
+    # ====== Layout ======
     st.markdown("""
     <style>
-        /* Tiêu đề chính */
-        .main-header {
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-            color: white;
-            border-radius: 15px;
-            margin: 1rem 0;
-            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
-        }
-
-        /* Card giới thiệu */
-        .feature-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 1.5rem 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        /* Nút lớp học */
-        .class-card {
-            padding: 2rem;
-            border-radius: 15px;
-            background: linear-gradient(145deg, #f5f5f5 0%, #ffffff 100%);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            text-align: center;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .class-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 25px rgba(76,175,80,0.2);
-            background: linear-gradient(145deg, #e8f5e9 0%, #ffffff 100%);
-        }
-
-        /* Hướng dẫn sử dụng */
-        .guide-step {
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-left: 4px solid #4CAF50;
-            margin: 1rem 0;
-            border-radius: 8px;
-        }
-
-        /* Thông tin liên hệ */
-        .contact-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #4CAF50;
-            color: white;
-            border-radius: 20px;
-            margin: 0.5rem;
-            font-size: 0.9rem;
-        }
+    .main-header {
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+        color: white;
+        border-radius: 15px;
+        margin: 1rem 0;
+        box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+    }
+    .feature-card, .guide-step, .contact-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
     </style>
     """, unsafe_allow_html=True)
 
-    # ======= PHẦN NỘI DUNG =======
-    # Header chính
     st.markdown("""
     <div class="main-header">
-        <h1 style="margin:0; font-size:2.5rem">📚 Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh dành cho người khiếm thị</h1>
+        <h1>📚 Hệ thống hỗ trợ tư duy học tập và tư thế ngồi thông minh</h1>
     </div>
     """, unsafe_allow_html=True)
-    text_to_speech("Hệ thống kích thích tư duy học tập và hỗ trợ điều chỉnh tư thế ngồi thông minh cho người khiếm thị")
-    time.sleep(1)
 
-    # Giới thiệu hệ thống
-    with st.container():
-        st.markdown("""
-        <div class="feature-card">
-            <h3 style="color:#2E7D32; margin-top:0">🌐 Giới Thiệu Hệ Thống</h3>
-            <p style="font-size:1.05rem; line-height:1.6">
-            Hệ thống tích hợp công nghệ AI tiên tiến hỗ trợ học tập đa phương thức với:
-            </p>
-            <div style="display: flex; gap:1rem; flex-wrap:wrap;">
-                <span class="badge">🎤 Nhận diện giọng nói</span>
-                <span class="badge">📖 Học liệu đa dạng</span>
-                <span class="badge">🤖 Trợ lý ảo thông minh</span>
-                <span class="badge">📊 Báo cáo học tập</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+    # ====== Đọc Intro 1 lần ======
+    if not st.session_state.page_intro_read:
+        intro = """
+        Bạn đang ở Trang Chủ.
+        Chế độ hiện tại của bạn là chế độ giọng nói
+        Các phím tắt:
+        Alt+V: Bật hoặc tắt chế độ giọng nói.
+        Alt+L: Mở khu vực chọn lớp học.
+        Alt+1 đến Alt+5: Chọn lớp học.
+        Alt+P: Trang chủ.
+        Alt+B: Bài học.
+        Alt+K: Kiểm tra.
+        Alt+H: Hỗ trợ học tập.
+        """
+        text_to_speech(intro)
+        st.session_state.page_intro_read = True
+        time.sleep(2)
 
-        if st.button("🔊 Nghe giới thiệu hệ thống", use_container_width=True):
-            intro_text = """
-                        Hệ thống được thiết kế để hỗ trợ học sinh, 
-                        đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
-                        đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
-                        """
-            text_to_speech(intro_text)
+    # ====== Các hàm xử lý ======
+    def toggle_voice_mode():
+        st.session_state.voice_mode = not st.session_state.voice_mode
+        st.session_state.voice_mode_key += 1  # Tăng key để ép toggle update
+        if st.session_state.voice_mode:
+            text_to_speech("Đã bật chế độ giọng nói.")
+        else:
+            text_to_speech("Đã chuyển sang chế độ bàn phím.")
+        time.sleep(1)
 
-    # Lớp học
-    st.markdown("### 📚 Chọn Lớp Học")
+    def area_choose_class():
+        text_to_speech("Bạn đang ở khu vực chọn lớp học. Nhấn Alt cộng số lớp từ 1 đến 5.")
+
+    def area_open_guide():
+        guide = """
+        Hướng dẫn nhanh các phím tắt:
+        Alt+V: Chuyển chế độ giọng nói hoặc bàn phím.
+        Alt+L: Mở chọn lớp học.
+        Alt+X: Xem hướng dẫn 
+        Alt+1 đến Alt+5: Chọn lớp học.
+        Alt+P: Trang chủ.
+        Alt+B: Bài học.
+        Alt+K: Kiểm tra kiến thức.
+        Alt+H: Hỗ trợ học tập.
+        """
+        text_to_speech(guide)
+
+    def select_class(class_num):
+        st.session_state.selected_class = class_num
+        text_to_speech(f"Bạn đã chọn Lớp {class_num}.")
+        time.sleep(1)
+
+    def switch_page(page_name):
+        st.session_state.current_page = page_name
+
+    def alert_voice_mode_on():
+        text_to_speech("Bạn đang ở chế độ giọng nói. Vui lòng chuyển sang chế độ bàn phím để sử dụng phím tắt.")
+
+    # ====== Toggle chế độ ======
+    st.toggle(
+        "🎤 Bật/Tắt chế độ giọng nói",
+        value=st.session_state.voice_mode,
+        key=st.session_state.voice_mode_key,
+    )
+    st.button("🔀 Thay đổi chế độ điều khiển", on_click=toggle_voice_mode)
+
+    # ====== Các khu vực chính ======
+    st.header("🔀 Điều khiển hệ thống")
+    st.button("Chọn lớp học", on_click=area_choose_class)
+    st.button("Xem hướng dẫn sử dụng", on_click=area_open_guide)
+    st.markdown("<h1>🏠 Trang chủ</h1>", unsafe_allow_html=True)
+    st.button("📚 Chuyển sang Bài học", on_click=lambda: switch_page("📚 Bài học"))
+    st.button("🧠 Chuyển sang Kiểm tra kiến thức", on_click=lambda: switch_page("🧠 Kiểm tra kiến thức"))
+    st.button("📧 Chuyển sang Hỗ trợ học tập", on_click=lambda: switch_page("📧 Hỗ trợ học tập"))
+
+    # ====== Gán Hotkey ======
+    add_keyboard_shortcuts({
+        'Alt+V': 'Thay đổi chế độ điều khiển',
+        'Alt+L': 'Chọn lớp học',
+        'Alt+X': 'Xem hướng dẫn sử dụng',
+        'Alt+1': 'Lớp 1',
+        'Alt+2': 'Lớp 2',
+        'Alt+3': 'Lớp 3',
+        'Alt+4': 'Lớp 4',
+        'Alt+5': 'Lớp 5',
+        "Alt+P": lambda: switch_page("🏠 Trang chủ"),
+        "Alt+B": lambda: switch_page("📚 Bài học"),
+        "Alt+K": lambda: switch_page("🧠 Kiểm tra kiến thức"),
+        "Alt+H": lambda: switch_page("📧 Hỗ trợ học tập"),
+    })
+
+    # ====== Các lớp học ======
+    st.header("📚 Các lớp học")
     cols = st.columns(3)
-    class_info = {
-        1: {"color": "#4CAF50", "icon": "🧮"},
-        2: {"color": "#2196F3", "icon": "📚"},
-        3: {"color": "#9C27B0", "icon": "🌍"},
-        4: {"color": "#FF9800", "icon": "⚛️"},
-        5: {"color": "#E91E63", "icon": "🎨"}
-    }
-
     for i in range(1, 6):
         with cols[(i - 1) % 3]:
-            info = class_info[i]
-            html = f"""
-            <div class="class-card" onclick="window.location.href='?class={i}'">
-                <div style="font-size:2.5rem; margin-bottom:1rem">{info['icon']}</div>
-                <h3 style="margin:0; color:{info['color']}">Lớp {i}</h3>
-            </div>
-            """
-            st.markdown(html, unsafe_allow_html=True)
-    intro_text = """
-                            Hệ thống được thiết kế để hỗ trợ học sinh, 
-                            đặc biệt là học sinh khiếm thị, tiếp cận kiến thức dễ dàng thông qua 
-                            đa dạng hình thức: văn bản, âm thanh, hình ảnh và tương tác.
-                            """
-    text_to_speech(intro_text)
-    time.sleep(3)
-    # text_to_speech("Bạn muốn vào lớp mấy?")
-    # # speech = recognize_speech().lower()
-    # time.sleep(2)
-    # speech = "lớp 4"
-    # # Nhận diện lớp học
-    # for i in range(1, 6):
-    #     if f"lớp {i}" in speech:
-    #         text_to_speech(f"Bạn đã chọn lớp {i}")
-    #         st.session_state.selected_class = i
-    #         break
+            st.button(f"🧮 Lớp {i}", key=f"class_btn_{i}", on_click=select_class, args=(i,))
 
-    if "guide_read" not in st.session_state:
-        st.session_state.guide_read = False
-
-    # Hướng dẫn sử dụng (theo các phím tắt ALT)
-    with st.expander("📘 Hướng Dẫn Sử Dụng Nhanh Bằng Bàn Phím", expanded=False):
+    # ====== Hướng dẫn ======
+    st.header("📘 Hướng dẫn sử dụng nhanh")
+    with st.expander("Mở hướng dẫn", expanded=False):
         st.markdown("""
         <div class="guide-step">
-            <h4>🎯 Điều hướng nhanh</h4>
+            <h4>🎯 Phím tắt:</h4>
             <ul>
-                <li><b>Alt + 1</b>: Về trang chủ</li>
-                <li><b>Alt + 2</b>: Mở trang bài học</li>
-                <li><b>Alt + 3</b>: Mở trang kiểm tra kiến thức</li>
-                <li><b>Alt + 4</b>: Mở trang hỗ trợ học tập</li>
-            </ul>
-        </div>
-
-        <div class="guide-step">
-            <h4>🃏 Flashcard</h4>
-            <ul>
-                <li><b>Alt + M</b>: Chuyển sang flashcard tiếp theo</li>
-                <li><b>Alt + B</b>: Phát tiếng Anh của flashcard</li>
-                <li><b>Alt + V</b>: Phát tiếng Việt của flashcard</li>
-                <li><b>Alt + N</b>: Phát tiếng Nhật của flashcard</li>
-            </ul>
-        </div>
-
-        <div class="guide-step">
-            <h4>🎤 Giọng nói</h4>
-            <ul>
-                <li><b>Alt + 5</b>: Bật chế độ điều khiển bằng giọng nói</li>
+                <li><b>Alt+V</b>: Bật/Tắt chế độ giọng nói</li>
+                <li><b>Alt+L</b>: Mở khu vực chọn lớp học</li>
+                <li><b>Alt+1 → Alt+5</b>: Chọn lớp 1 đến lớp 5</li>
+                <li><b>Alt+P</b>: Trang chủ</li>
+                <li><b>Alt+B</b>: Bài học</li>
+                <li><b>Alt+K</b>: Kiểm tra kiến thức</li>
+                <li><b>Alt+H</b>: Hỗ trợ học tập</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
-
-        # Tự động đọc hướng dẫn nếu chưa đọc
-        if not st.session_state.guide_read:
-            huong_dan = """
-            Hướng dẫn sử dụng bằng phím tắt:
-            Alt + 1 để về trang chủ.
-            Alt + 2 để mở trang bài học.
-            Alt + 3 để mở trang kiểm tra kiến thức.
-            Alt + 4 để mở trang hỗ trợ học tập.
-            Alt + M để chuyển sang flashcard tiếp theo.
-            Alt + B để nghe phát âm tiếng Anh.
-            Alt + V để nghe phát âm tiếng Việt.
-            Alt + N để nghe phát âm tiếng Nhật.
-            Alt + 5 để bật điều khiển bằng giọng nói.
-            """
-            text_to_speech(huong_dan)
-            st.session_state.guide_read = True
 
     # Thông tin liên hệ
     st.markdown("""
@@ -225,15 +176,43 @@ def home_page():
         </div>
     </div>
     """, unsafe_allow_html=True)
-    # text_to_speech(intro_text)
-    time.sleep(1)
-    text_to_speech("Bạn học lớp mấy?")
-    # speech = recognize_speech().lower()
-    time.sleep(2)
-    speech = "lớp 4"
-    # Nhận diện lớp học
-    for i in range(1, 6):
-        if f"lớp {i}" in speech:
-            text_to_speech(f"Bạn đã chọn lớp {i}")
-            st.session_state.selected_class = i
-            break
+    # # text_to_speech(intro_text)
+    # time.sleep(1)
+    # text_to_speech("Bạn học lớp mấy?")
+    # # speech = recognize_speech().lower()
+    # time.sleep(2)
+    # speech = "lớp 4"
+    # # Nhận diện lớp học
+    # for i in range(1, 6):
+    #     if f"lớp {i}" in speech:
+    #         text_to_speech(f"Bạn đã chọn lớp {i}")
+    #         st.session_state.selected_class = i
+    #         break
+
+         # ====== Xử lý Hotkey ======
+    if "keyboard_shortcuts" in st.session_state:
+        shortcut_pressed = st.session_state["keyboard_shortcuts"]
+
+        if st.session_state.voice_mode:
+            st.session_state.pending_alert = "Bạn đang ở chế độ giọng nói. Vui lòng chuyển sang chế độ bàn phím để sử dụng phím tắt."
+        else:
+            if shortcut_pressed == "Thay đổi chế độ điều khiển":
+                toggle_voice_mode()
+            elif shortcut_pressed == "Chọn lớp học":
+                area_choose_class()
+            elif shortcut_pressed == "Xem hướng dẫn sử dụng":
+                area_open_guide()
+            elif shortcut_pressed == "Lớp 1":
+                select_class(1)
+            elif shortcut_pressed == "Lớp 2":
+                select_class(2)
+            elif shortcut_pressed == "Lớp 3":
+                select_class(3)
+            elif shortcut_pressed == "Lớp 4":
+                select_class(4)
+            elif shortcut_pressed == "Lớp 5":
+                select_class(5)
+    # ====== Thực thi Pending Alert nếu có ======
+    if st.session_state.pending_alert:
+        text_to_speech(st.session_state.pending_alert)
+        st.session_state.pending_alert = None  # Xóa alert sau khi đọc
